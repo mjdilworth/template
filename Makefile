@@ -1,4 +1,5 @@
-BINARY_NAME ?= myapp #change me
+PACKAGE_PATH ?= ./cmd/cli
+BINARY_NAME ?= myapp#change me
 VERSION ?= 0.0.1
 BUILD_DIR := bin
 GIT_REV_PARSE := $(shell git rev-parse HEAD)
@@ -6,6 +7,7 @@ COMMIT_ID := $(if ${GIT_REV_PARSE},${GIT_REV_PARSE},unknown)
 DATECMD := date$(if $(findstring Windows,$(OS)),.exe,)
 BUILD_TIMESTAMP := $(shell ${DATECMD} +%Y-%m-%dT%H:%m:%S%z)
 .DEFAULT_GOAL := all
+CONFIG_PATH ?= main
 
 
 os_arch = $(word 4, $(shell go version))
@@ -22,12 +24,46 @@ WHITE  := $(shell tput -Txterm setaf 7)
 CYAN   := $(shell tput -Txterm setaf 6)
 RESET  := $(shell tput -Txterm sgr0)
 
+.PHONEY: all
+## all:
+all: ## default is to build just for current platform
+	@make me
 
 .PHONEY: hello
 ## hello:
 hello: ## dummy help build for the makefile
-	echo "hello"
-	echo "always print hello does not exist"
+	@echo "hello and dump out stuff"
+	@echo "always print hello does not exist"
+	@echo ${os_arch}
+	@echo ${os}
+	@echo ${arch}
+	@echo ${VERSION}
+	@echo ${BUILD_DIR}
+	@echo ${GIT_REV_PARSE}
+	@echo ${COMMIT_ID}
+	@echo ${DATECMD}
+	@echo ${BUILD_TIMESTAMP}
+	@echo ${.DEFAULT_GOAL}
+	@echo ${GOOS}
+	@echo ${GOARCH}
+	@echo Building ${GOOS}-${GOARCH}
+	@echo ${BINARY_NAME}
+	$(eval BINARY := ${BINARY_NAME}$(if $(findstring windows,$(GOOS)),.exe,))
+	@echo ${BINARY_NAME}
+
+.PHONY: confirm
+## confirm:
+confirm: ## used to ask for user input if they want to continue
+	@echo '\nAre you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]
+
+.PHONY: build-platform
+## build-platform:
+build-platform: ## build project to platform
+	@echo Building ${GOOS}-${GOARCH}
+	$(eval BINARY := ${BINARY_NAME}$(if $(findstring windows,$(GOOS)),.exe,))
+	go build -v -o ${BUILD_DIR}/${GOOS}-${GOARCH}/$(BINARY) \
+	-ldflags=all="-X ${CONFIG_PATH}.Version=${VERSION} -X ${CONFIG_PATH}.CommitId=${COMMIT_ID} -X ${CONFIG_PATH}.BuildTimestamp=${BUILD_TIMESTAMP}" ${PACKAGE_PATH}
+
 
 .PHONEY: me
 ## me:
@@ -44,12 +80,10 @@ build: ## build your project
 	@make --no-print-directory build-platform GOOS=darwin GOARCH=amd64 CGO_ENABLED=0
 	@make --no-print-directory build-platform GOOS=${os} GOARCH=${arch}  CGO_ENABLED=0
 	
-
 .PHONY: win
 ## win:
  win: ## build for windows
 	@make --no-print-directory build-platform GOOS=windows GOARCH=amd64 KERBEROS_DEFAULT=true
-
 
 .PHONY: build_pi
 ## build_pi:
@@ -58,7 +92,7 @@ build_pi: ## build your project for an old pi - arch arm
 
 .PHONY: clean
 ## clean:
-clean: ## clean the project	add "-" before command so if error it is ignored
+clean: confirm ## clean the project	add "-" before command so if error it is ignored
 	go	clean
 	rm -rf ${BUILD_DIR}
 
@@ -74,18 +108,13 @@ tidy: ## mod tidy
 
 .PHONY: test
 ## test:
-test: ## run tests
-ifeq (${MAKECMDGOALS},ci)
-	go test -v -coverpkg=./... -coverprofile=coverage.out -json ./... -count=1 > test-report.json || (cat test-report.json; exit 1)
-else
-	go test -v -coverpkg=./... -coverprofile=coverage.out ./... -count=1
-endif
+test: ## run tests with test failure ignored (-)
+	-go test -v -race -coverpkg=./... -coverprofile=coverage.out ./... -count=1
 
 .PHONY: cover
 ## cover:
-cover: test ## run test coverage
+cover: test ## run test coverage - output to html page
 	go tool cover -html=coverage.out
-
 
 ## Help:
 help: ## Show this help.

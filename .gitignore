@@ -18,7 +18,7 @@
 # vendor/
 
 # binary build directory
-cmd/
+bin/
 
 # Go workspace file
 go.work
