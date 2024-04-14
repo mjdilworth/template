@@ -1,7 +1,30 @@
 package wip
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
+func TestNewWip(t *testing.T) {
+	//not much of a test really
+	instance := NewWip("")
+	//check that
+	if len(instance.Name) < 1 {
+		t.Errorf("Missing value for field: " + instance.Name)
+	}
+
+}
+func TestOne(t *testing.T) {
+	app := &Wip{
+		Name: "foo",
+	}
+	//i can test for the presence of a string?
+	//testString := app.One()
+	if !strings.Contains(app.One(), "function") {
+		t.Errorf("Result was incorrect, I am looking for function and, %s didnt have it", app.One())
+	}
+
+}
 func TestTwo(t *testing.T) {
 
 	app := &Wip{
@@ -10,7 +33,7 @@ func TestTwo(t *testing.T) {
 
 	result := app.Two(1)
 
-	if result != 5 {
+	if result != 3 {
 
 		t.Errorf("Result was incorrect, got: %d, want: %d.", result, 5)
 	}

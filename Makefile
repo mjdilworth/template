@@ -62,7 +62,7 @@ build-platform: ## build project to platform
 	@echo Building ${GOOS}-${GOARCH}
 	$(eval BINARY := ${BINARY_NAME}$(if $(findstring windows,$(GOOS)),.exe,))
 	go build -v -o ${BUILD_DIR}/${GOOS}-${GOARCH}/$(BINARY) \
-	-ldflags=all="-X ${CONFIG_PATH}.Version=${VERSION} -X ${CONFIG_PATH}.CommitId=${COMMIT_ID} -X ${CONFIG_PATH}.BuildTimestamp=${BUILD_TIMESTAMP}" ${PACKAGE_PATH}
+	-ldflags=all="-s -w -X ${CONFIG_PATH}.Version=${VERSION} -X ${CONFIG_PATH}.CommitId=${COMMIT_ID} -X ${CONFIG_PATH}.BuildTimestamp=${BUILD_TIMESTAMP}" ${PACKAGE_PATH}
 
 
 .PHONEY: me

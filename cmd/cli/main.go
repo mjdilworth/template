@@ -25,7 +25,7 @@ func main() {
 		Name: *appFlag,
 	}
 
-	app.One()
+	fmt.Println(app.One())
 
 	fmt.Println(app.Two(3))
 
