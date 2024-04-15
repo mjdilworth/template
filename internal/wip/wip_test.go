@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+
+
 func TestNewWip(t *testing.T) {
 	//not much of a test really
 	instance := NewWip("")
@@ -23,20 +25,23 @@ func TestOne(t *testing.T) {
 	if !strings.Contains(app.One(), "function") {
 		t.Errorf("Result was incorrect, I am looking for function and, %s didnt have it", app.One())
 	}
-
 }
+
+
+
 func TestTwo(t *testing.T) {
 
 	app := &Wip{
 		Name: "foo",
 	}
 
-	result := app.Two(1)
-
-	if result != 3 {
-
-		t.Errorf("Result was incorrect, got: %d, want: %d.", result, 5)
-	}
+	t.Run("simple single test from 1 add 2 = 3", func(t *testing.T) {
+		got := app.Two(1)
+		want := 3
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
+		}
+	})
 
 	var tests = []struct {
 		name  string
