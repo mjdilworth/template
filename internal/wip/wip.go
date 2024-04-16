@@ -34,6 +34,13 @@ func NewWip(name string) *Wip {
 	}
 }
 
+type Dictionary map[string]string
+
+func (w Wip) DictionarySearch(dict Dictionary, str string) string {
+
+	return dict[str]
+}
+
 func (w Wip) One() string {
 	return "now i am in package wip and function one"
 }

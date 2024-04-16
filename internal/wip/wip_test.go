@@ -6,6 +6,18 @@ import (
 	"testing"
 )
 
+func TestDictionarySearch(t *testing.T) {
+
+	app := &Wip{"foo"}
+	dictionary := map[string]string{"test": "this is a test"}
+
+	got := app.DictionarySearch(dictionary, "test")
+	want := "this is a test"
+	if got != want {
+		t.Errorf("wanted '%s' but got '%s'", want, got)
+	}
+}
+
 func TestArea(t *testing.T) {
 
 	areaTests := []struct {
