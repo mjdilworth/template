@@ -24,7 +24,7 @@ type Wip struct {
 	Name string
 }
 
-func NewWip(name string) *Wip {
+func New(name string) *Wip {
 	//if name is empty string use default value "foo"
 	if len(name) < 1 {
 		name = "foo"

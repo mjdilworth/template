@@ -13,3 +13,16 @@
 9. git checkout -b <branch name>
 10. git push -u origin <branch>
 
+### Some handy go notes to help idomatic principles
+
+- constant declarations are not UPPERCASE
+- small varible names
+- group variables - var {...}
+- functions that panic prefix with "Must"
+- Structures - use named initialisation of structure variables
+- mutex grouping : in declaration put mutex above what it protects and name it for what it is protecting
+- interface - needs to be an "er" for naming, and be composable of other interfaces to minimise require implementation
+- function grouping/order : put most important functions at the top of the file, exported ones first
+- HTTP handlers : always prefix name with "handle"
+- enums : go doesnt have them , but prefix enum constants with type name
+- contructor : for 
