@@ -31,7 +31,7 @@ all: ## default is to build just for current platform
 
 .PHONEY: hello
 ## hello:
-hello: ## dummy help build for the makefile
+hello: ## dummy hello build for the makefile to dump
 	@echo "hello and dump out stuff"
 	@echo "always print hello does not exist"
 	@echo ${os_arch}
@@ -40,16 +40,8 @@ hello: ## dummy help build for the makefile
 	@echo ${VERSION}
 	@echo ${BUILD_DIR}
 	@echo ${GIT_REV_PARSE}
-	@echo ${COMMIT_ID}
-	@echo ${DATECMD}
-	@echo ${BUILD_TIMESTAMP}
-	@echo ${.DEFAULT_GOAL}
-	@echo ${GOOS}
-	@echo ${GOARCH}
-	@echo Building ${GOOS}-${GOARCH}
-	@echo ${BINARY_NAME}
 	$(eval BINARY := ${BINARY_NAME}$(if $(findstring windows,$(GOOS)),.exe,))
-	@echo ${BINARY_NAME}
+	
 
 .PHONY: confirm
 ## confirm:

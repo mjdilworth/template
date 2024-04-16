@@ -7,7 +7,9 @@ import (
 
 func TestNewWip(t *testing.T) {
 	//not much of a test really
-	instance := NewWip("")
+	instance := &Wip{
+		Name: "bar",
+	}
 	//check that
 	if len(instance.Name) < 1 {
 		t.Errorf("Missing value for field: " + instance.Name)
@@ -16,7 +18,7 @@ func TestNewWip(t *testing.T) {
 }
 func TestOne(t *testing.T) {
 	app := &Wip{
-		Name: "foo",
+		Name: "bar",
 	}
 	//i can test for the presence of a string?
 	//testString := app.One()
