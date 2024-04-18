@@ -21,12 +21,10 @@ func main() {
 	fmt.Println("CommitId\t", CommitId)
 	fmt.Println("BuildTimestamp\t", BuildTimestamp)
 
-	app := &wip.Wip{
-		Name: *appFlag,
-	}
+	a := wip.New(*appFlag)
 
-	fmt.Println(app.One())
+	fmt.Println(a.One())
 
-	fmt.Println(app.Two(3))
+	fmt.Println(a.Two(3))
 
 }

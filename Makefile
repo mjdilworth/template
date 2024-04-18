@@ -29,6 +29,12 @@ RESET  := $(shell tput -Txterm sgr0)
 all: ## default is to build just for current platform
 	@make me
 
+
+.PHONEY: run
+## run:
+run: ## quick go run cmd/cli/main.go
+	go run ${PACKAGE_PATH}/main.go
+
 .PHONEY: hello
 ## hello:
 hello: ## dummy hello build for the makefile to dump
