@@ -1,4 +1,4 @@
-PACKAGE_PATH ?= ./cmd/cli
+PACKAGE_PATH ?= .
 BINARY_NAME ?= myapp#change me
 VERSION ?= 0.0.1
 BUILD_DIR := bin
@@ -28,7 +28,6 @@ RESET  := $(shell tput -Txterm sgr0)
 ## all:
 all: ## default is to build just for current platform
 	@make me
-
 
 .PHONEY: run
 ## run:

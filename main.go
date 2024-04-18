@@ -27,4 +27,6 @@ func main() {
 
 	fmt.Println(a.Two(3))
 
+	a.LogMe("using new slog package", "bar", 5)
+
 }

@@ -25,4 +25,4 @@
 - function grouping/order : put most important functions at the top of the file, exported ones first
 - HTTP handlers : always prefix name with "handle"
 - enums : go doesnt have them , but prefix enum constants with type name
-- contructor : for 
+- contructor : start with type and right below create the constructor "New"
