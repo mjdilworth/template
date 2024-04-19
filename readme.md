@@ -26,3 +26,16 @@
 - HTTP handlers : always prefix name with "handle"
 - enums : go doesnt have them , but prefix enum constants with type name
 - contructor : start with type and right below create the constructor "New"
+
+
+### Some handy tech notes
+#### network diagnostics
+netstat -anp tcp | awk 'NR<3 || /LISTEN/'
+or
+
+lsof -PiTCP -sTCP:LISTEN
+
+extract PID of myapp
+lsof -PiTCP -sTCP:LISTEN | grep myapp | awk '{ print $2 }'
+
+use backticks to evaluate and used by kill kill lsof -PiTCP -sTCP:LISTEN | grep myapp | awk '{ print $2 }'

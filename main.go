@@ -3,8 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 
-	"github.com/mjdilworth/template/internal/wip"
+	"github.com/mjdilworth/template/internal/apploader"
+	"github.com/mjdilworth/template/internal/server"
 )
 
 var Version = "development"
@@ -14,6 +16,7 @@ var BuildTimestamp string
 func main() {
 
 	appFlag := flag.String("flag", "foo", "pass in configuration")
+	daemon := flag.Bool("run as http daemon (true/false)", false)
 	flag.Parse()
 
 	fmt.Println("appFlag:\t", *appFlag)
@@ -21,12 +24,18 @@ func main() {
 	fmt.Println("CommitId\t", CommitId)
 	fmt.Println("BuildTimestamp\t", BuildTimestamp)
 
-	a := wip.New(*appFlag)
+	//create the application
+	app := server.New()
+	//load the applications
+	al := apploader.New(app)
 
-	fmt.Println(a.One())
+	//run the application
+	if err := al.Run(); err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 
-	fmt.Println(a.Two(3))
-
-	a.LogMe("using new slog package", "bar", 5)
+	//the application has ended
+	al.LogMe("Service is ending", "key", 5)
 
 }

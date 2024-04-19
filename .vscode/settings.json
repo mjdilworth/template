@@ -2,5 +2,8 @@
     "go.goroot": "/usr/local/jpmc/go-1.22.2",
     "go.alternateTools": {
         
+    },
+    "go.toolsEnvVars": {
+        "GOPATH": "/usr/local/jpmc/go-1.22.2"
     }
 }
